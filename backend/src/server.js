@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const userRouter = require('./routes/auth');
 const dbConnection = require('./config/db');
 const path = require('path');
+const userRouter = require('./routes/patient.route');
+const doctorRouter = require('./routes/doctor.route');
+const adminRouter = require('./routes/admin.route');
 
 // Initialize app
 const app = express();
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());  // Enable CORS
 app.use('/api/auth', userRouter);
+app.use("/api/doctor", doctorRouter)
+app.use("/api/admin", adminRouter)
 
 // Database connection
 dbConnection();
