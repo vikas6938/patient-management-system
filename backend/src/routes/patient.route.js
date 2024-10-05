@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const userRouter = Router();
+const appointmentModel = require("../models/appointment.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
@@ -229,5 +230,7 @@ userRouter.patch("/profile/data/update/:id", async (req, res) => {
     res.status(500).json({ error, details: error.message });
   }
 });
+
+
 
 module.exports = userRouter;
