@@ -3,3 +3,6 @@
 @tailwind utilities;
 
 
+.pro-text-color{color: #0da2f5;}
+.side-text-color:hover{color: #0da2f5;}
+.save-btn{background-color: #0da2f5;}
