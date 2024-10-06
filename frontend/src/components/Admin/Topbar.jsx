@@ -18,6 +18,11 @@ const Topbar = () => {
         </Link>
       </div>
 
+      {/* <div>
+        <h1 className="text-2xl font-bold">Good Morning! Martin</h1>
+        <p>Hope you have a good day</p>
+      </div> */}
+
       {/* Right Side - Search, Notification, and Profile */}
       <div className="flex items-center space-x-4">
         {/* Search Bar with Icon */}
