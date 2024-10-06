@@ -62,4 +62,47 @@ appointmentRouter.delete("/delete/:id",async (req, res) => {
 
 })
 
+appointmentRouter.get("/patient/history/:patientId",async(req,res)=>{
+  try {
+    const { patientId } = req.params;
+
+    const appointmentHistory = await appointmentModel.find({ patientId })
+
+    res.status(200).json({ message: 'Patient Appointment History', appointmentHistory });
+  } catch (error) {
+    res.status(500).json({ error, details:error.message });
+  }
+})
+
+appointmentRouter.get("/doctor/history/:doctorId",async(req,res)=>{
+  try {
+    const { doctorId } = req.params;
+
+    const appointmentHistory = await appointmentModel.find({ doctorId })
+
+    res.status(200).json({ message: 'Doctor Appointment History', appointmentHistory });
+  } catch (error) {
+    res.status(500).json({ error, details:error.message });
+  }
+})
+
+appointmentRouter.patch("/cancel/:id",async(req,res)=>{
+  try {
+    const { id } = req.params;
+
+    const appointment = await appointmentModel.findById(id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment Not Found' });
+    }
+
+    appointment.status = 'cancelled';
+    await appointment.save();
+
+    res.status(200).json({ message: 'Appointment Cancelled', appointment });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
+
 module.exports = appointmentRouter;
