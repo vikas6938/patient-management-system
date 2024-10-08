@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  patientID: { type: mongoose.Schema.Types.ObjectId, ref: 'patient'},
-  doctorID: { type: mongoose.Schema.Types.ObjectId, ref: 'doctor'},
-//   hospitalID : {type : mongoose.Schema.Types.ObjectId, ref:'hospital'} ,
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'patient'},
+  doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'doctor'},
+//   hospitalId : {type : mongoose.Schema.Types.ObjectId, ref:'hospital'} ,
   specialty:{type:String,required:true},
   country : {type : String, required : true},
   state : {type : String, required : true},
