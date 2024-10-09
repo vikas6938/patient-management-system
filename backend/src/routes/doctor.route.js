@@ -24,7 +24,7 @@ doctorRouter.post("/login", async (req, res) => {
       return res.status(400).json({error:"Incorrect Password"});
     }
 
-    let token = jwt.sign({ doctorId: doctor.id }, "doctor", {
+    let token = jwt.sign({ doctorId: doctor.id, role:'doctor' }, "doctor", {
       expiresIn: "4hr",
     });
     res.status(200).json({ message: "doctor Logged in Successfully", token });
@@ -137,8 +137,13 @@ doctorRouter.get("/profile/data/:id", async (req, res) => {
 doctorRouter.patch("/profile/data/update/:id", async (req, res) => {
   try {
     let { id } = req.params;
+    let updateData = req.body
 
-    let updateDoctor = await doctorModel.findByIdAndUpdate(id, req.body, {
+    if (req.file) {
+      updateData.profilePic = req.file.filename;
+    }
+
+    let updateDoctor = await doctorModel.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 

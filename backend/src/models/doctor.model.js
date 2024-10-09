@@ -24,7 +24,10 @@ const doctorSchema = new mongoose.Schema({
     qualifications:{type:String, required:true},
     specialty:{type:String,required:true},
     workingTime:{type:String, required:true},
-    email:{type:String,required:true},
+    profilePic:{type:String, default:""},
+    doctorImage: { type: String },
+  doctorSignature: { type: String },
+    email:{type:String,required:true, unique:true},
     password:{type:String,require:true},
     otp: { type: String },
     otpExpiresAt: { type: Date }

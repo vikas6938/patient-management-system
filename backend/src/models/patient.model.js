@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     firstName:{type:String ,required:true},
     lastName:{type:String,required:true},
     // username: { type: String },
-    email:{type:String,required:true},
+    email:{type:String,required:true, unique:true},
     phoneNumber:{type:String,required:true},
     age:{type:Number,required:true},
     height:{type:Number,required:true},
@@ -20,8 +20,11 @@ const userSchema = new mongoose.Schema({
         default: 'prefer not to say'
     },
     address:{type:String,required:true},
+    profilePic:{type:String, default:""},
+    doctorImage:{type:String},
+    doctorSign:{type:String},
     password:{type:String,require:true},
-    confirmPassword:{type:String,require:true},
+    // confirmPassword:{type:String,require:true},
     // role:{type:String, enum:["patient","doctor"], required:true, default:"patient"},
     otp: { type: String },
     otpExpiresAt: { type: Date }

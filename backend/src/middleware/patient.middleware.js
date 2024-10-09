@@ -9,7 +9,7 @@ const auth = (req, res, next) => {
 
     let decoded = jwt.verify(token, "patient");
 
-    req.user = decoded;
+    req.patient = decoded;
 
     next();
   } catch (error) {

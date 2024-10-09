@@ -11,7 +11,7 @@ const admin = (req, res, next) => {
 
     let decoded = jwt.verify(token, "admin");
 
-    req.user = decoded;
+    req.admin = decoded;
 
     next();
   } catch (error) {

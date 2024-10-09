@@ -51,7 +51,7 @@ userRouter.post("/signup", async (req, res) => {
       gender,
       address,
       password: hashedPassword,
-      confirmPassword: hashedPassword,
+      // confirmPassword: hashedPassword,
     });
 
     await newUser.save();
@@ -76,7 +76,7 @@ userRouter.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Password Incorrect" });
     }
 
-    let token = jwt.sign({ userId: user.id }, "patient", {
+    let token = jwt.sign({ userId: user.id, role:'patient' }, "patient", {
       expiresIn: "4hr",
     });
     res.status(200).json({ message: "User Logged in Successfully", token });
@@ -156,9 +156,9 @@ userRouter.post("/forgot_password/verify_otp", async (req, res) => {
 
     if (user.otp === otp.toString()) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
+      // const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
       user.password = hashedPassword;
-      user.confirmPassword = hashedConfirmPassword;
+      // user.confirmPassword = hashedConfirmPassword;
 
       user.otp = undefined;
       user.otpExpiresAt = undefined;
@@ -203,6 +203,7 @@ userRouter.patch("/profile/data/update/:id", async (req, res) => {
       city,
       gender,
       address,
+      profilePic = req.file.filename
     } = req.body;
 
     let updateUser = await userModel.findByIdAndUpdate(
@@ -222,6 +223,7 @@ userRouter.patch("/profile/data/update/:id", async (req, res) => {
       city,
       gender,
       address,
+      profilePic,
       { new: true }
     );
 

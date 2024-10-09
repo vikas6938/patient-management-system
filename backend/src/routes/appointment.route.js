@@ -4,10 +4,10 @@ const appointmentRouter = Router();
 
 appointmentRouter.post("/add", async (req, res) => {
   try {
-    const { doctorID, appointmentDate, appointmentTime } = req.body;
+    const { doctorId, appointmentDate, appointmentTime } = req.body;
 
     const appointment = await appointmentModel.findOne({
-      doctorID,
+      doctorId,
       appointmentDate,
       appointmentTime,
     });
@@ -23,7 +23,7 @@ appointmentRouter.post("/add", async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Appointment booked", data: newAppointment });
+      .json({ message: "Appointment booked", newAppointment });
   } catch (error) {
     res.status(500).json({ error, details: error.message });
   }
@@ -33,7 +33,12 @@ appointmentRouter.get("/get_all/:patientId", async (req, res) => {
   try {
     let {patientId} = req.params
     let data = await appointmentModel.find({id:patientId})
-    res.json(data);
+
+    if(!data){
+      return res.status(404).json({error:"Appointment Not Found"})
+    }
+
+    res.status(200).json({message:"Appointments!", data});
   } catch (error) {
     res.status(500).json({ error, details: error.message });
   }
