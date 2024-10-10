@@ -1,0 +1,117 @@
+ {/* Patient Details Section */}
+            <div className="border p-4 rounded-lg">
+            <div className="flex justify-between items-center ">
+                <h4 className="text-xl font-semibold">Patient Details</h4>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="flex items-center space-x-2 text-white select-btn px-3 py-2 rounded-md font-medium"
+                >
+                  <FaPlus />
+                  <span>Add New Field</span>
+                </button>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "name", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Disease Name"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "diseaseName", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Doctor Name"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "doctorName", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Description"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "description", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Discount (%)"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "discount", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Tax"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "tax", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Amount"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "amount", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Total Amount"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "totalAmount", e.target.value)
+                  }
+                />
+                <select
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "paymentType", e.target.value)
+                  }
+                >
+                  <option>Select Payment Type</option>
+                  <option>Cash</option>
+                  <option>Credit Card</option>
+                  <option>Insurance</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Enter Age"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "age", e.target.value)
+                  }
+                />
+                <select
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "gender", e.target.value)
+                  }
+                >
+                  <option>Select Gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Enter Address"
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    handleInputChange("patient", "address", e.target.value)
+                  }
+                />
+              </div>
+            </div>

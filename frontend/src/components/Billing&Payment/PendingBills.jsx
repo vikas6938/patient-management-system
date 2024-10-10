@@ -41,7 +41,13 @@ const PendingBills = () => {
                       <p className="text-gray-700 font-semibold">
                         Bill No: <Link to={`/Pending/${bill.billNo}`} className="text-blue-500">{bill.billNo}</Link>
                       </p>
-                      <FaEye className="text-blue-500 cursor-pointer" />
+                      {
+                        bill.billNo
+                          ? <Link to={`/Pending/${bill.billNo}`}>
+                              <FaEye className="text-blue-500 cursor-pointer" />
+                            </Link>
+                          : <span className="text-gray-400"><FaEye /></span>
+                      }
                     </div>
                     <div className="flex justify-between items-center">
                       <div className="text-sm text-gray-500">Bill Date</div>
