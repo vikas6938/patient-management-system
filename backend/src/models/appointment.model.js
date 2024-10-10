@@ -11,7 +11,7 @@ const appointmentSchema = new mongoose.Schema({
   appointmentType: { type: String, enum: ['online', 'offline'], required: true },
   appointmentDate: { type: Date, required: true },
   appointmentTime : {type : String , required : true},
-  status:{type:String, enum:["cancelled","completed"]},
+  status:{type:String, enum:["cancelled","completed","pending"]},
   patientIssue: {type : String , required : true},
   disease: {type:String},
 

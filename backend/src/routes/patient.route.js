@@ -77,7 +77,7 @@ userRouter.post("/login", async (req, res) => {
     }
 
     let token = jwt.sign({ userId: user.id, role:'patient' }, "patient", {
-      expiresIn: "4hr",
+      expiresIn: "12hr",
     });
     res.status(200).json({ message: "User Logged in Successfully", token });
   } catch (error) {

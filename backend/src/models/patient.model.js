@@ -20,9 +20,10 @@ const userSchema = new mongoose.Schema({
         default: 'prefer not to say'
     },
     address:{type:String,required:true},
-    profilePic:{type:String, default:""},
-    doctorImage:{type:String},
-    doctorSign:{type:String},
+    profilePic:{type:String},
+    // doctorImage:{type:String},
+    // doctorSign:{type:String},
+    appointmentId:[{type:mongoose.Schema.Types.ObjectId, ref:"appointment"}],
     password:{type:String,require:true},
     // confirmPassword:{type:String,require:true},
     // role:{type:String, enum:["patient","doctor"], required:true, default:"patient"},

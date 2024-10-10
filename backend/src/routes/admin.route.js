@@ -3,12 +3,13 @@ const adminRouter = Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
 const adminModel = require("../models/admin.model");
 const userModel = require("../models/patient.model");
 const doctorModel = require("../models/doctor.model");
 const hospitalModel = require("../models/hospital.model");
+const { adminAuth } = require("../middleware/auth.middleware");
 
 adminRouter.post("/signup", async (req, res) => {
   try {
@@ -28,30 +29,32 @@ adminRouter.post("/signup", async (req, res) => {
     if (admin) {
       return res.status(400).json({ error: "Admin Already Exist!" });
     }
-    if (password !== confirmPassword) {
+    if (password == confirmPassword) {
+      let hashedPassword = await bcrypt.hash(password, 10);
+
+      let newAdmin = new adminModel({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        country,
+        state,
+        city,
+        hospital,
+        password: hashedPassword,
+        // confirmPassword: hashedPassword,
+      });
+
+      await newAdmin.save();
+      res
+        .status(200)
+        .json({ message: "Admin Registered Successfully", newAdmin });
+    }
+    else{
       return res
         .status(400)
         .json({ error: "Confirm Password is Not Matching" });
     }
-    let hashedPassword = await bcrypt.hash(password, 10);
-
-    let newAdmin = new adminModel({
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      country,
-      state,
-      city,
-      hospital,
-      password: hashedPassword,
-      confirmPassword: hashedPassword,
-    });
-
-    await newAdmin.save();
-    res
-      .status(200)
-      .json({ message: "Admin Registered Successfully", newAdmin });
   } catch (error) {
     res.status(500).json({ error, details: error.message });
   }
@@ -73,7 +76,7 @@ adminRouter.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Password Incorrect" });
     }
 
-    let token = jwt.sign({ adminId: admin.id, role:'admin' }, "admin", {
+    let token = jwt.sign({ adminId: admin.id, role: "admin" }, "admin", {
       expiresIn: "4hr",
     });
     res.status(200).json({ message: "Admin Logged in Successfully", token });
@@ -187,12 +190,13 @@ adminRouter.get("/hospital/get", async (req, res) => {
   }
 });
 
-adminRouter.post("/hospital/add", async (req, res) => {
-  const { name, address, country, state, city, zipCode } =
-    req.body;
+adminRouter.post("/hospital/add",adminAuth, async (req, res) => {
+  const { name, address, country, state, city, zipCode } = req.body;
+
+  const admin = await adminModel.findById(req.admin.adminId)
 
   try {
-    const newHospital = new Hospital({
+    const newHospital = new hospitalModel({
       name,
       address,
       country,
@@ -200,14 +204,17 @@ adminRouter.post("/hospital/add", async (req, res) => {
       city,
       zipCode,
     });
-
     await newHospital.save();
+
+    admin.hospital.push(newHospital._id)
+    await admin.save()
+
 
     res
       .status(200)
       .json({ message: "Hospital added successfully", newHospital });
   } catch (error) {
-    res.status(500).json({ error, details:error.message });
+    res.status(500).json({ error, details: error.message });
   }
 });
 
@@ -224,11 +231,11 @@ adminRouter.get("/profile/data/:id", async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 
 const upload = multer({
@@ -236,35 +243,38 @@ const upload = multer({
   limits: { fileSize: 2 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png/;
-    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = fileTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
     const mimeType = fileTypes.test(file.mimetype);
 
     if (extname && mimeType) {
       return cb(null, true);
     } else {
-      cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+      cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     }
-  }
+  },
 });
 
-adminRouter.patch("/profile/data/update/:id",upload.single('profilePic'), async (req, res) => {
-  try {
-    let { id } = req.params;
-    let updateData = req.body
+adminRouter.patch("/profile/data/update/:id",upload.single("profilePic"),async (req, res) => {
+    try {
+      let { id } = req.params;
+      let updateData = req.body;
 
-    if (req.file) {
-      updateData.profilePic = req.file.filename;
+      if (req.file) {
+        updateData.profilePic = req.file.filename;
+      }
+
+      let updateAdmin = await adminModel.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
+
+      res.status(200).json({ message: "admin Updated", updateAdmin });
+    } catch (error) {
+      res.status(500).json({ error, details: error.message });
     }
-
-    let updateAdmin = await adminModel.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
-
-    res.status(200).json({ message: "admin Updated", updateAdmin });
-  } catch (error) {
-    res.status(500).json({ error, details: error.message });
   }
-});
+);
 
 adminRouter.patch("/profile/data/update_password/:id", async (req, res) => {
   try {
@@ -312,61 +322,68 @@ adminRouter.get("/dashboard/total_doctors", async (req, res) => {
   }
 });
 
-adminRouter.post("/doctor/add", upload.fields([{ name: 'doctorImage', maxCount: 1 }, { name: 'doctorSignature', maxCount: 1 }]), async (req, res) => {
+adminRouter.post("/doctor/add",upload.fields([
+    { name: "doctorImage", maxCount: 1 },
+    { name: "doctorSignature", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      let newDoctorData = req.body;
+
+      if (req.files["doctorImage"]) {
+        newDoctorData.doctorImage = req.files["doctorImage"][0].path;
+      }
+
+      if (req.files["doctorSignature"]) {
+        newDoctorData.doctorSignature = req.files["doctorSignature"][0].path;
+      }
+      let newDoctor = new doctorModel(newDoctorData);
+      await newDoctor.save();
+      res.status(200).json({ message: "Doctor Added Successfully", newDoctor });
+    } catch (error) {
+      res.status(500).json({ error, details: error.message });
+    }
+  }
+);
+
+adminRouter.get("/doctor/get", async (req, res) => {
   try {
-    let newDoctorData = req.body;
-
-    if (req.files['doctorImage']) {
-      newDoctorData.doctorImage = req.files['doctorImage'][0].path;
-    }
-
-    if (req.files['doctorSignature']) {
-      newDoctorData.doctorSignature = req.files['doctorSignature'][0].path;
-    }
-    let newDoctor = new doctorModel(newDoctorData);
-    await newDoctor.save();
-    res.status(200).json({message:"Doctor Added Successfully", newDoctor})
+    let doctor = await doctorModel.find();
+    res.status(200).json({ message: "Doctors", doctor });
   } catch (error) {
     res.status(500).json({ error, details: error.message });
   }
 });
 
-adminRouter.get("/doctor/get", async (req, res) => {
+adminRouter.patch("/doctor/update/:id", async (req, res) => {
   try {
-      let doctor=await doctorModel.find()
-      res.status(200).json({message:"Doctors",doctor})
+    let { id } = req.params;
+    let doctors = await doctorModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.status(200).json(doctors);
   } catch (error) {
-      res.status(500).json({ error, details:error.message });
+    res.status(500).json({ error, details: error.message });
   }
-})
+});
 
-adminRouter.patch("/doctor/update/:id",async (req, res) => {
+adminRouter.delete("/doctor/delete/:id", async (req, res) => {
   try {
-      let{id}=req.params
-      let doctors=await doctorModel.findByIdAndUpdate(id,req.body,{new:true})
-      res.status(200).json(doctors)
+    let { id } = req.params;
+    let doctor = await doctorModel.findByIdAndDelete(id);
+    res.status(200).json({ message: "Doctor Deleted Successfully", doctor });
   } catch (error) {
-      res.status(500).json({ error, details:error.message });
+    res.status(500).json({ error, details: error.message });
   }
-})
+});
 
-adminRouter.delete("/doctor/delete/:id",async (req, res) => {
+adminRouter.get("/patient/get", async (req, res) => {
   try {
-      let{id}=req.params
-      let doctor=await doctorModel.findByIdAndDelete(id)
-      res.status(200).json({message:"Doctor Deleted Successfully", doctor})
+    let patients = await userModel.find();
+    res.json(patients);
   } catch (error) {
-      res.status(500).json({ error, details:error.message });
+    res.status(500).json({ error, details: error.message });
   }
-})
-
-adminRouter.get("/patient/get",async (req, res) => {
-  try {
-      let patients=await userModel.find()
-      res.json(patients)
-  } catch (error) {
-      res.status(500).json({ error, details:error.message });
-  }
-})
+});
 
 module.exports = adminRouter;
