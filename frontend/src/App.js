@@ -11,7 +11,10 @@ import TermsCondition from './components/ProfileScreen/TermsCondition';
 import ProfileSetting from './components/ProfileScreen/ProfileSetting';
 import PrivacyPolicy from './components/ProfileScreen/PrivacyPolicy';
 import Dashboard from './components/Dashboard/Dashboard';
-import DashboardYear from './components/Dashboard/DashboardYear';
+import Breadcrumb from './components/Common/Breadcrumb';
+import PendingBills from './components/Billing&Payment/PendingBills';
+import PendingBillOnline from './components/Billing&Payment/PendingBillOnline';
+import CreateBill from './components/Billing&Payment/CreateBill';
 
 
 function App() {
@@ -31,7 +34,10 @@ function App() {
         <Route path="/terms-condition" element={<TermsCondition />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard-year" element={<DashboardYear />} />
+        <Route path="/breadcrumb" element={<Breadcrumb />} />
+        <Route path="/pending-bills" element={<PendingBills />} />
+        <Route path="/bills-online" element={<PendingBillOnline />} />
+        <Route path="/create-bill" element={<CreateBill />} />
       </Routes>
     </Router>
   );
