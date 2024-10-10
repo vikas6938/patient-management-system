@@ -27,7 +27,7 @@ const prescriptionSchema = new mongoose.Schema(
     },
     medicines: [medicineSchema],
     additionalNote: { type: String},
-    prescriptionDate: { type: Date, default: Date.now },
+    prescriptionDate: { type: Date, default: Date.now() },
   },
   { timestamps: true }
 );

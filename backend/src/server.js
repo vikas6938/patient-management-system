@@ -8,6 +8,7 @@ const doctorRouter = require('./routes/doctor.route');
 const adminRouter = require('./routes/admin.route');
 const appointmentRouter = require('./routes/appointment.route');
 const prescriptionRouter = require('./routes/prescription.route');
+const recordRouter = require('./routes/patientRecord.route');
 
 // Initialize app
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/doctor", doctorRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/appointment", appointmentRouter)
 app.use("/api/prescription", prescriptionRouter)
+app.use("/api/record", recordRouter)
 
 // Database connection
 dbConnection();
