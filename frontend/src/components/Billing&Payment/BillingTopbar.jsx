@@ -1,10 +1,10 @@
-// src/components/Dashboard/Topbar.jsx
-import React, { useState, useEffect } from 'react';
+// src/components/BillingAndPayment/BillingTopbar.jsx
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaSearch, FaBell, FaChevronDown } from 'react-icons/fa';
+import { FaSearch, FaBell, FaChevronDown, FaAngleRight } from "react-icons/fa";
 import user1 from "../../assets/images/user1.png";
 
-const Topbar = ({ onFilterChange }) => {
+const BillingTopbar = ({ onFilterChange, breadcrumbItems }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("All");
   const [searchInput, setSearchInput] = useState("");
@@ -15,7 +15,7 @@ const Topbar = ({ onFilterChange }) => {
     { name: "Dr. Parthiv Patel" },
     { name: "Dr. Titan Grant" },
     { name: "Dr. Keenan Tucker" },
-    // add other doctors
+    // add other doctors as needed
   ];
 
   const patientsData = [
@@ -23,7 +23,7 @@ const Topbar = ({ onFilterChange }) => {
     { patientName: "Julianna Mejia" },
     { patientName: "Julianna Warren" },
     { patientName: "Julianna Estes" },
-    // add other patients
+    // add other patients as needed
   ];
 
   const toggleDropdown = () => {
@@ -37,14 +37,13 @@ const Topbar = ({ onFilterChange }) => {
   };
 
   useEffect(() => {
-    // Combine doctors and patients names for suggestions
     const combinedNames = [
-      ...doctorsData.map(doctor => doctor.name),
-      ...patientsData.map(patient => patient.patientName),
+      ...doctorsData.map((doctor) => doctor.name),
+      ...patientsData.map((patient) => patient.patientName),
     ];
-    
+
     if (searchInput.length > 0) {
-      const filteredSuggestions = combinedNames.filter(name =>
+      const filteredSuggestions = combinedNames.filter((name) =>
         name.toLowerCase().startsWith(searchInput.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
@@ -64,14 +63,25 @@ const Topbar = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="bg-white shadow-md p-4 flex justify-between items-center">
-      {/* Greeting Section */}
-      <div className="text-left">
-        <h2 className="text-xl font-semibold text-gray-800">Good Morning! Martin</h2>
-        <p className="text-sm text-gray-400">Hope you have a good day</p>
+    <div className="bg-white shadow-md p-4 flex justify-between items-center ">
+      {/* Breadcrumb Section */}
+
+      <div className="mb-2">
+        <div className="flex items-center text-gray-500 space-x-4">
+          {breadcrumbItems.map((item, index) => (
+            <span key={index} className="flex items-center">
+              <Link to={item.path} className="hover:text-blue-500">
+                {item.label}
+              </Link>
+              {index < breadcrumbItems.length - 1 && (
+                <FaAngleRight className="mx-2" />
+              )}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Right Section - Search, Notification, and User Info */}
+      {/* Search Bar with Suggestions */}
       <div className="flex items-center space-x-4">
         {/* Search Bar with Suggestions */}
         <div className="relative flex items-center bg-gray-100 rounded-full w-64 pr-4">
@@ -131,10 +141,19 @@ const Topbar = ({ onFilterChange }) => {
 
         {/* User Profile */}
         <div className="flex items-center space-x-2">
-          <img src={user1} alt="User Profile" className="w-8 h-8 rounded-full" />
+          <img
+            src={user1}
+            alt="User Profile"
+            className="w-8 h-8 rounded-full"
+          />
           <div className="text-right">
-            <span className="block text-gray-700 font-semibold">Lincoln Philips</span>
-            <Link to="/profile-setting" className="block text-sm text-gray-400 text-start">
+            <span className="block text-gray-700 font-semibold">
+              Lincoln Philips
+            </span>
+            <Link
+              to="/profile-setting"
+              className="block text-sm text-gray-400 text-start"
+            >
               Admin
             </Link>
           </div>
@@ -144,4 +163,4 @@ const Topbar = ({ onFilterChange }) => {
   );
 };
 
-export default Topbar;
+export default BillingTopbar;
