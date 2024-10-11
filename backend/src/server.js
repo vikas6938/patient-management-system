@@ -9,6 +9,8 @@ const adminRouter = require('./routes/admin.route');
 const appointmentRouter = require('./routes/appointment.route');
 const prescriptionRouter = require('./routes/prescription.route');
 const recordRouter = require('./routes/patientRecord.route');
+const billRouter = require('./routes/bill.route');
+const insuranceRouter = require('./routes/insurance.route');
 
 // Initialize app
 const app = express();
@@ -28,6 +30,8 @@ app.use("/api/admin", adminRouter)
 app.use("/api/appointment", appointmentRouter)
 app.use("/api/prescription", prescriptionRouter)
 app.use("/api/record", recordRouter)
+app.use("/api/bill", billRouter)
+app.use("/api/insurance", insuranceRouter)
 
 // Database connection
 dbConnection();

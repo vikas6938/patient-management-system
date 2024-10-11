@@ -1,8 +1,10 @@
 const { Router } = require("express");
+const appointmentRouter = Router();
+const io = require("socket.io")
 const appointmentModel = require("../models/appointment.model");
 const { patientAuth, doctorAuth } = require("../middleware/auth.middleware");
 const userModel = require("../models/patient.model");
-const appointmentRouter = Router();
+const notificationModel = require("../models/notification.model");
 
 appointmentRouter.post("/add", patientAuth, async (req, res) => {
   try {
@@ -21,8 +23,6 @@ appointmentRouter.post("/add", patientAuth, async (req, res) => {
     } = req.body;
 
     let patient = await userModel.findById(req.patient.userId)
-    // console.log(req.patient.userId);
-    // console.log(patient);
 
     const newAppointment = await appointmentModel.create({
       specialty,
@@ -42,6 +42,15 @@ appointmentRouter.post("/add", patientAuth, async (req, res) => {
 
     patient.appointmentId.push(newAppointment._id)
     await patient.save()
+
+    const doctorNotification = new notificationModel({
+      doctorId: doctorId,
+      message: `A new appointment has been booked by ${patient.firstName}`,
+      appointmentId: newAppointment._id,
+    });
+    
+    await doctorNotification.save();
+
 
     res.status(200).json({ message: "Appointment booked", newAppointment });
   } catch (error) {
