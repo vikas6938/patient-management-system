@@ -20,7 +20,9 @@ import PendingBillInsurance from './components/Billing&Payment/PendingBillInsura
 import CreateBill from './components/Billing&Payment/CreateBill';
 import InvoiceDetails from './components/Billing&Payment/PendingBillOnline';
 import SelectInvoiceTheme from './components/Billing&Payment/InvoiceTheme';
+// Doctor Management
 import DoctorManage from './components/DoctorManagement/DoctorManage';
+import AddDoctor from './components/DoctorManagement/AddDoctor';
 
 
 function App() {
@@ -51,6 +53,7 @@ function App() {
         <Route path="/invoice-theme" element={<SelectInvoiceTheme />} />
         {/* Doctor Management ------ */}
         <Route path="/doctor-manage" element={<DoctorManage />} />
+        <Route path="/add-doctor" element={<AddDoctor />} />
 
       </Routes>
     </Router>

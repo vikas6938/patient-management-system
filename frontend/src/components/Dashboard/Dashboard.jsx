@@ -40,6 +40,31 @@ const dataYear = [
   { month: "Dec", patients: 35000 },
 ];
 
+
+const dataMonth = [
+  { day: "1", patients: 1000 },
+  { day: "2", patients: 1500 },
+  { day: "3", patients: 1200 },
+  { day: "4", patients: 1300 },
+  { day: "5", patients: 1400 },
+  { day: "6", patients: 1250 },
+  { day: "7", patients: 1600 },
+  { day: "8", patients: 1400 },
+  { day: "9", patients: 1100 },
+  { day: "10", patients: 1350 },
+  // Continue adding data for all days of the month
+];
+
+const dataWeek = [
+  { day: "Mon", patients: 3000 },
+  { day: "Tue", patients: 3200 },
+  { day: "Wed", patients: 2800 },
+  { day: "Thu", patients: 3100 },
+  { day: "Fri", patients: 3500 },
+  { day: "Sat", patients: 3300 },
+  { day: "Sun", patients: 2900 },
+];
+
 // Define the doctorsData array here
 const doctorsData = [
   {
@@ -98,13 +123,15 @@ const patientsData = [
 ];
 
 const Dashboard = () => {
+  const [view, setView] = useState("Year");
   const [showYearView, setShowYearView] = useState(true);
-  const [filterOption, setFilterOption] = useState("All");
+  const [filterOption, setFilterOption] = useState("");
 
   const handleFilterChange = (option) => {
     setFilterOption(option);
   };
 
+  const chartData = view === "Year" ? dataYear : view === "Month" ? dataMonth : dataWeek;
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -160,10 +187,12 @@ const Dashboard = () => {
                 </tbody>
               </table>
             </div>
-           ) : filterOption === "Patient" ? (
+          ) : filterOption === "Patient" ? (
             // Patient View
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4">Patients Search Results</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Patients Search Results
+              </h3>
               <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                 <thead>
                   <tr className="bg-gray-100 text-left text-gray-600">
@@ -191,7 +220,13 @@ const Dashboard = () => {
                       <td className="p-3">{patient.doctor}</td>
                       <td className="p-3">{patient.disease}</td>
                       <td className="p-3 text-blue-500">{patient.time}</td>
-                      <td className={`p-3 ${patient.type === "Onsite" ? "text-blue-500" : "text-yellow-500"}`}>
+                      <td
+                        className={`p-3 ${
+                          patient.type === "Onsite"
+                            ? "text-blue-500"
+                            : "text-yellow-500"
+                        }`}
+                      >
                         {patient.type}
                       </td>
                       <td className="p-3">
@@ -276,31 +311,38 @@ const Dashboard = () => {
                       >
                         Month
                       </button>
-                      <button className="text-gray-600 hover:text-blue-500">
-                        Week
-                      </button>
+                      <button
+                  onClick={() => setView("Week")}
+                  className={
+                    view === "Week"
+                      ? "bg-blue-500 text-white px-3 py-1 rounded-full"
+                      : "text-gray-600 hover:text-blue-500"
+                  }
+                >
+                  Week
+                </button>
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart
-                      data={dataYear}
-                      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Line
-                        type="monotone"
-                        dataKey="patients"
-                        stroke="#8884d8"
-                        strokeWidth={2}
-                        dot={{ r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
+              <LineChart
+                data={chartData}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={view === "Year" ? "month" : "day"} />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="patients"
+                  stroke="#8884d8"
+                  strokeWidth={2}
+                  dot={{ r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
                 </div>
 
                 <div className="bg-white shadow-md p-6 rounded-lg text-center">

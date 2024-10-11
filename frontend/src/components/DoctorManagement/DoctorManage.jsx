@@ -1,22 +1,48 @@
 import React, { useState } from "react";
 import Sidebar from "../ProfileScreen/Sidebar";
 import BillingTopbar from "../Billing&Payment/BillingTopbar";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 import { MdSearch } from "react-icons/md";
 import ProfileImg from "../../assets/images/Invoice.png"; // Path to profile images
 
 const DoctorManagement = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Search input state
+  const [selectedDoctor, setSelectedDoctor] = useState(null); // State to hold selected doctor details for off-canvas
+  const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false); // State to control off-canvas visibility
 
   // Sample doctor data
   const doctors = [
-    { name: "Dr. Marcus Phillips", gender: "Male", qualification: "MBBS", specialty: "Internal Medicine", workingTime: "6 Hour", checkupTime: "4 Hour", breakTime: "1 Hour" },
-    { name: "Dr. Haylie Schleifer", gender: "Female", qualification: "BDS", specialty: "Anesthesiology", workingTime: "5 Hour", checkupTime: "3 Hour", breakTime: "2 Hour" },
-    { name: "Dr. Roger Carder", gender: "Male", qualification: "B.U.M.S", specialty: "Surgery", workingTime: "8 Hour", checkupTime: "6 Hour", breakTime: "2 Hour" },
-    { name: "Dr. Wilson Culhane", gender: "Male", qualification: "BHMS", specialty: "Physical Therapy", workingTime: "7 Hour", checkupTime: "5 Hour", breakTime: "1 Hour" },
-    { name: "Dr. Chance Vaccaro", gender: "Female", qualification: "BDS", specialty: "Pathology", workingTime: "6 Hour", checkupTime: "3 Hour", breakTime: "2 Hour" },
-    { name: "Dr. Jaxon Levin", gender: "Male", qualification: "M.D", specialty: "Psychiatry", workingTime: "3 Hour", checkupTime: "2 Hour", breakTime: "1 Hour" }
+    {
+      name: "Dr. Marcus Phillips",
+      gender: "Male",
+      qualification: "MBBS",
+      specialty: "Internal Medicine",
+      workingTime: "6 Hour",
+      checkupTime: "4 Hour",
+      breakTime: "1 Hour",
+      yearsExperience: "10 Years",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      age: 54,
+      phone: "+123456789",
+      email: "marcus@example.com",
+      address: "1234 Medical St, Hospital City, HC 56789",
+      fees: "₹2,000"
+    },
+    // Add more sample data as needed
   ];
+
+  // Function to open the off-canvas with selected doctor details
+  const handleViewDoctor = (doctor) => {
+    setSelectedDoctor(doctor);
+    setIsOffCanvasOpen(true);
+  };
+
+  // Function to close the off-canvas
+  const handleCloseOffCanvas = () => {
+    setIsOffCanvasOpen(false);
+    setSelectedDoctor(null);
+  };
 
   // Filtered list of doctors based on the search query
   const filteredDoctors = doctors.filter((doctor) =>
@@ -44,12 +70,10 @@ const DoctorManagement = () => {
                   />
                   <MdSearch className="absolute top-2 left-3 text-gray-400 text-xl" />
                 </div>
-                <button
-                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-md"
-                >
+                <Link to="/add-doctor" className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-md">
                   <FaPlus className="mr-2" />
                   Add New Doctor
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -82,7 +106,10 @@ const DoctorManagement = () => {
                       <td className="p-4 border-t">{doctor.checkupTime}</td>
                       <td className="p-4 border-t">{doctor.breakTime}</td>
                       <td className="p-4 border-t flex space-x-2">
-                        <button className="text-blue-500 hover:text-blue-700">
+                        <button className="text-blue-500 hover:text-blue-700" onClick={() => handleViewDoctor(doctor)}>
+                          <FaEye />
+                        </button>
+                        <button className="text-green-500 hover:text-green-700">
                           <FaEdit />
                         </button>
                         <button className="text-red-500 hover:text-red-700">
@@ -96,6 +123,45 @@ const DoctorManagement = () => {
             </div>
           </div>
         </div>
+
+        {/* Off-Canvas Side Drawer */}
+        {isOffCanvasOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-end z-50">
+            <div className="bg-white w-96 p-6 overflow-auto">
+              <button onClick={handleCloseOffCanvas} className="text-right text-gray-500 text-lg mb-4">
+                &times;
+              </button>
+              <div className="flex items-center space-x-4 mb-4">
+                <img src={ProfileImg} alt="Doctor" className="w-16 h-16 rounded-full" />
+                <div>
+                  <h3 className="text-xl font-semibold">{selectedDoctor?.name}</h3>
+                  <span className="text-sm text-blue-500 font-semibold bg-blue-100 px-2 py-1 rounded">{selectedDoctor?.gender}</span>
+                </div>
+              </div>
+              <hr className="my-2" />
+              <div className="mb-4">
+                <p><strong>Qualification:</strong> {selectedDoctor?.qualification}</p>
+                <p><strong>Years of Experience:</strong> {selectedDoctor?.yearsExperience}</p>
+                <p><strong>Specialty Type:</strong> {selectedDoctor?.specialty}</p>
+                <p><strong>Working Time:</strong> {selectedDoctor?.workingTime}</p>
+                <p><strong>Checkup Time:</strong> {selectedDoctor?.checkupTime}</p>
+                <p><strong>Break Time:</strong> {selectedDoctor?.breakTime}</p>
+                <p><strong>Consultation Fees:</strong> {selectedDoctor?.fees}</p>
+              </div>
+              <div className="mb-4">
+                <p><strong>Description:</strong></p>
+                <p className="text-gray-600">{selectedDoctor?.description}</p>
+              </div>
+              <hr className="my-2" />
+              <div className="text-gray-700 space-y-2">
+                <p><strong>Age:</strong> {selectedDoctor?.age} Years</p>
+                <p><strong>Phone:</strong> {selectedDoctor?.phone}</p>
+                <p><strong>Email:</strong> {selectedDoctor?.email}</p>
+                <p><strong>Address:</strong> {selectedDoctor?.address}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

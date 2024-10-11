@@ -62,7 +62,7 @@ const Sidebar = () => {
 
       {/* Logout Button */}
       <div className="w-full py-4">
-        <Link to="/logout" className="flex items-center justify-center text-red-500 hover:text-red-700 py-2">
+        <Link to="/login" className="flex items-center justify-center text-red-500 hover:text-red-700 py-2">
           <FaSignOutAlt className="mr-2" />
           Logout
         </Link>
