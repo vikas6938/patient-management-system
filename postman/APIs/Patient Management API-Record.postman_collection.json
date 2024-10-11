@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "2e622be0-cfb2-4644-838b-eee67babc8e1",
+		"name": "Patient Management API-Record",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34657209"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/api/record/add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/record/add",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"record",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/api/record/get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/record/get",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"record",
+						"get"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

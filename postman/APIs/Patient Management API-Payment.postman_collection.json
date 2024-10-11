@@ -1,0 +1,30 @@
+{
+	"info": {
+		"_postman_id": "3f97b8d1-147e-4195-bf4c-787e5c6cd186",
+		"name": "Patient Management API-Payment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34657209"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/api/payment/order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/payment/order",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"payment",
+						"order"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
