@@ -2,7 +2,7 @@ const { Router } = require("express");
 const insuranceRouter = Router()
 const insuranceModel = require("../models/insurance.model");
 
-insuranceRouter.post("/create" , async (req, res) => {
+insuranceRouter.post("/add" , async (req, res) => {
     try {
         const insurance = await insuranceModel(req.body);
         await insurance.save();

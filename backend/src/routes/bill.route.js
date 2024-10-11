@@ -2,7 +2,7 @@ const { Router } = require("express");
 const billRouter = Router();
 const billModel = require("../models/bill.model");
 
-billRouter.post("/create", async (req, res) => {
+billRouter.post("/add", async (req, res) => {
   try {
     const newBill = new billModel(req.body);
     await newBill.save();

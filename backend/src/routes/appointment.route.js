@@ -94,7 +94,7 @@ appointmentRouter.get("/doctor/get_all/", doctorAuth, async (req, res) => {
   }
 });
 
-appointmentRouter.get("/doctor/all_patient", async(req,res)=>{
+appointmentRouter.get("/doctor/all_patient", doctorAuth, async(req,res)=>{
   try {
     let data = await userModel.find()
     res.status(200).json({message:"All Patients",data})
@@ -103,7 +103,7 @@ appointmentRouter.get("/doctor/all_patient", async(req,res)=>{
   }
 })
 
-appointmentRouter.get("/doctor/single_patient/:patientId", async(req,res)=>{
+appointmentRouter.get("/doctor/single_patient/:patientId", doctorAuth, async(req,res)=>{
   try {
     let {patientId} = req.params
     let data = await userModel.findById(patientId).populate("appointmentId")
