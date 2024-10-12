@@ -1,9 +1,9 @@
+// src/components/pages/patient/AppointmentBookingPage.jsx
 import React, { useState, useEffect } from "react";
-import { useBreadcrumb } from "../Common/BreadcrumbContext";
+import { useBreadcrumb } from "../../Common/BreadcrumbContext";
 import { FaCalendarAlt, FaTrashAlt, FaRedoAlt, FaEye } from "react-icons/fa";
-import Sidebar from "../ProfileScreen/Sidebar";
-import BillingTopbar from "../Billing&Payment/BillingTopbar";
-import DoctorDetailsSidebar from './DoctorDetailsSidebar';
+import PatientSidebar from "../../Patient/PatientSidebar";
+import BillingTopbar from "../../Billing&Payment/BillingTopbar";
 
 const AppointmentBookingPage = () => {
   const { updateBreadcrumb } = useBreadcrumb();
@@ -46,7 +46,7 @@ const AppointmentBookingPage = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-    <Sidebar />
+      <PatientSidebar />
     <div className="flex-1 ml-64">
       <BillingTopbar breadcrumbItems={[{ label: "Doctor Management" }]} />
     <div className="bg-white p-6 rounded-lg shadow-lg m-6 h-full">
@@ -152,13 +152,7 @@ const AppointmentBookingPage = () => {
       </div>
 
       {/* Doctor Details Sidebar */}
-      {selectedDoctor && (
-        <DoctorDetailsSidebar
-          doctor={selectedDoctor}
-          isVisible={isSidebarVisible}
-          onClose={() => setIsSidebarVisible(false)}
-        />
-      )}
+     
     </div>
     </div>
     </div>
