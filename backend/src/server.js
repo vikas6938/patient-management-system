@@ -16,8 +16,6 @@ const app = express();
 // Upload Images
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-
 // Middleware to parse incoming JSON and URL-encoded payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

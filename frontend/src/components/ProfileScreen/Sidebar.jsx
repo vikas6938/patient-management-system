@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   return (
     <div className="bg-white w-64 h-full shadow-lg fixed flex flex-col justify-between">
-      {/* Logo and Title */}
+      {/* Logo and Title    */}
       <div>
         <div className="p-5 text-center shadow">
           <img src={logo} alt="Logo" className="mx-auto w-60 h-30" />
@@ -29,7 +29,7 @@ const Sidebar = () => {
             <FaUserMd className="mr-3" />
             Doctor Management
           </Link>
-          <Link to="/patient-management" className="flex items-center py-3 px-6 text-gray-600 hover:bg-blue-100 hover:text-blue-600">
+          <Link to="/patient-dashboard" className="flex items-center py-3 px-6 text-gray-600 hover:bg-blue-100 hover:text-blue-600">
             <FaUserCog className="mr-3" />
             Patient Management
           </Link>
