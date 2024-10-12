@@ -9,12 +9,17 @@ const adminRouter = require('./routes/admin.route');
 const appointmentRouter = require('./routes/appointment.route');
 const prescriptionRouter = require('./routes/prescription.route');
 const recordRouter = require('./routes/patientRecord.route');
+const billRouter = require('./routes/bill.route');
+const insuranceRouter = require('./routes/insurance.route');
+const paymentRouter = require('./routes/payment.route');
 
 // Initialize app
 const app = express();
 
 // Upload Images
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 // Middleware to parse incoming JSON and URL-encoded payloads
 app.use(express.json());
@@ -26,6 +31,9 @@ app.use("/api/admin", adminRouter)
 app.use("/api/appointment", appointmentRouter)
 app.use("/api/prescription", prescriptionRouter)
 app.use("/api/record", recordRouter)
+app.use("/api/bill", billRouter)
+app.use("/api/insurance", insuranceRouter)
+app.use("/api/payment",paymentRouter)
 
 // Database connection
 dbConnection();
