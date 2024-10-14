@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const doctorModel = require("../models/doctor.model");
 
+
+
 doctorRouter.post("/login", async (req, res) => {
   try {
     let { email, password } = req.body;
