@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FaUserMd, FaUserCog, FaMoneyBill, FaChartLine, FaSignOutAlt, FaThLarge, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import logo from "../../assets/images/AdmLogo.png";
+import logo from "../../assets/images/logo.png";
 
 const Sidebar = () => {
   const [isBillingOpen, setIsBillingOpen] = useState(false);
@@ -15,10 +15,10 @@ const Sidebar = () => {
     <div className="bg-white w-64 h-full shadow-lg fixed flex flex-col justify-between">
       {/* Logo and Title    */}
       <div>
-        <div className="p-5 text-center shadow">
-          <img src={logo} alt="Logo" className="mx-auto w-60 h-30" />
-        </div>
-
+      <div className="py-2">
+        <img src={logo} alt="Logo" className="w-48 mx-auto mb-4" />
+      </div>
+      <div className="border-t border-gray-200 mx-5"></div>
         {/* Navigation Links */}
         <nav className="space-y-4 mt-4">
           <Link to="/dashboard" className="flex items-center py-3 px-6 text-gray-600 hover:bg-blue-100 hover:text-blue-600">

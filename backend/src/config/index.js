@@ -1,5 +1,4 @@
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const { DB_URL, PORT } = process.env;

@@ -50,7 +50,7 @@ const PatientSidebar = ({ onMenuClick }) => {
   ];
 
   return (
-    <div className="w-72 bg-white h-full shadow-lg flex flex-col justify-between">
+    <div className="w-64 bg-white h-full shadow-lg flex flex-col justify-between">
       {/* Logo */}
       <div className="py-2">
         <img src={logo} alt="Hospital Logo" className="w-48 mx-auto mb-4" />

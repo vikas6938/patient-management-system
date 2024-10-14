@@ -11,7 +11,6 @@ const PatientNavbar = ({ activeMenu }) => {
 
   return (
     <div className="flex items-center justify-between bg-white shadow-md p-4">
-      {/* Remove Sidebar here if it is not needed */}
       {/* Profile Setting Path */}
       <div className="flex items-center bg-gray-100 px-4 py-2 rounded-full space-x-2">
         <Link to={"/dashboard"}>
