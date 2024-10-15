@@ -10,7 +10,7 @@ const payment = new razorpay({
 paymentRouter.post("/order", (req, res) => {
   let { amount } = req.body;
   let options = {
-    amount: amount,
+    amount: amount*1000,
   };
   payment.orders.create(options, (err, order) => {
     if (err) {

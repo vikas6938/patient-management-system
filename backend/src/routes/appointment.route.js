@@ -8,37 +8,14 @@ const notificationModel = require("../models/notification.model");
 
 appointmentRouter.post("/add", patientAuth, async (req, res) => {
   try {
-    const {
-      specialty,
-      country,
-      state,
-      city,
-      appointmentDate,
-      appointmentTime,
-      doctorId,
-      hospitalId,
-      patientIssue,
-      diseaseName,
-      appointmentType,
-    } = req.body;
 
     let patient = await userModel.findById(req.patient.userId)
 
-    const newAppointment = await appointmentModel.create({
-      specialty,
-      country,
-      state,
-      city,
-      appointmentDate,
-      appointmentTime,
-      patientId: req.patient.userId,
-      hospitalId,
-      doctorId,
-      patientIssue,
-      diseaseName,
-      appointmentType,
-      status: "pending",
-    });
+    const newAppointment = await appointmentModel.create(
+      req.body,
+    );
+
+    newAppointment.status = "pending"
 
     patient.appointmentId.push(newAppointment._id)
     await patient.save()
