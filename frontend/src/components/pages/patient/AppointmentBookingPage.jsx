@@ -1,9 +1,8 @@
-// src/components/pages/patient/AppointmentBookingPage.jsx
 import React, { useState, useEffect } from "react";
 import { useBreadcrumb } from "../../Common/BreadcrumbContext";
 import { FaCalendarAlt, FaTrashAlt, FaRedoAlt, FaEye } from "react-icons/fa";
-import PatientSidebar from "../../Patient/PatientSidebar";
-import BillingTopbar from "../../Billing&Payment/BillingTopbar";
+import Sidebar from "../../Patient/PatientSidebar";
+import Topbar from "../../Patient/PatientNavbar";
 
 const AppointmentBookingPage = () => {
   const { updateBreadcrumb } = useBreadcrumb();
@@ -16,6 +15,7 @@ const AppointmentBookingPage = () => {
       { label: "Appointment Booking", path: "/patient/appointment-booking" },
     ]);
   }, [updateBreadcrumb]);
+
 
   const appointments = [
     {
@@ -46,9 +46,9 @@ const AppointmentBookingPage = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <PatientSidebar />
-    <div className="flex-1 ml-64">
-      <BillingTopbar breadcrumbItems={[{ label: "Doctor Management" }]} />
+      <Sidebar />
+      <div className="flex-1 ">
+        <Topbar />
     <div className="bg-white p-6 rounded-lg shadow-lg m-6 h-full">
       {/* Tabs for Appointment Types */}
       <div className="flex space-x-4 border-b mb-4">
@@ -150,11 +150,8 @@ const AppointmentBookingPage = () => {
           </div>
         ))}
       </div>
-
-      {/* Doctor Details Sidebar */}
-     
-    </div>
-    </div>
+</div>
+</div>
     </div>
   );
 };

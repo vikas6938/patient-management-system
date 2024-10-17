@@ -25,26 +25,10 @@ const PatientSidebar = ({ onMenuClick }) => {
   };
 
   const menuItems = [
-    {
-      label: "Personal Health Record",
-      path: "/Patient/PatientDashboard",
-      icon: FaFileMedical,
-    },
-    {
-      label: "Appointment Booking",
-      path: "/Patient/appointment-booking",
-      icon: FaCalendarAlt,
-    },
-    {
-      label: "Prescription Access",
-      path: "/patient/prescription-access",
-      icon: FaPills,
-    },
-    {
-      label: "Teleconsultation Access",
-      path: "/patient/tele-access",
-      icon: FaCommentDots,
-    },
+    {label: "Personal Health Record", path: "/Patient/PatientDashboard", icon: FaFileMedical, },
+    { label: "Appointment Booking", path: "/appointment-booking", icon: FaCalendarAlt, },
+    { label: "Prescription Access", path: "/patient/prescription-access",  icon: FaPills,  },
+    {  label: "Teleconsultation Access",  path: "/patient/tele-access",  icon: FaCommentDots, },
     { label: "Chat", path: "/patient/chat", icon: FaCommentDots },
     { label: "Bills", path: "/patient/bills", icon: FaFileInvoiceDollar },
   ];
@@ -53,7 +37,9 @@ const PatientSidebar = ({ onMenuClick }) => {
     <div className="w-64 bg-white h-full shadow-lg flex flex-col justify-between">
       {/* Logo */}
       <div className="py-2">
-        <img src={logo} alt="Hospital Logo" className="w-48 mx-auto mb-4" />
+        <NavLink to="/"> {/* Wrap the logo with NavLink */}
+          <img src={logo} alt="Hospital Logo" className="w-48 mx-auto mb-4 cursor-pointer" />
+        </NavLink>
       </div>
 
       {/* Menu Items */}
@@ -112,7 +98,7 @@ const PatientSidebar = ({ onMenuClick }) => {
           <p className="text-sm text-gray-500 mb-4">
             You have to fill up the form to be admitted to the Hospital.
           </p>
-          <NavLink to={'/patient/appointment-booking'}>
+          <NavLink to="/appointment-booking">
             <button className="w-full bg-customBlue select-btn text-white py-2 rounded-md">
               Appointment
             </button>
@@ -123,7 +109,7 @@ const PatientSidebar = ({ onMenuClick }) => {
       {/* Logout Section */}
       <div className="h-20">
         <NavLink
-          to="/logout"
+          to="/login"
           className="flex items-center justify-start py-3 text-red-500 font-semibold bg-red-100 px-5"
         >
           <HiOutlineLogout className="mr-2 text-lg" />

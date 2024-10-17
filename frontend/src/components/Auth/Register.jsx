@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing the Eye icons for password visibility
 import { AiOutlineDown, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import logoBanner from "../../assets/images/loginBanner.png";
@@ -12,7 +13,7 @@ const Register = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",  
     country: "",
     state: "",
     city: "",
@@ -27,6 +28,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const hospitals = [
     "Hummingbird Garden Samaritan Hospital Center",
     "Fountain Grove Medical Clinic",
@@ -59,7 +61,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let validationErrors = {};
 
@@ -67,7 +69,7 @@ const Register = () => {
     if (!formData.firstName) validationErrors.firstName = "First Name is required.";
     if (!formData.lastName) validationErrors.lastName = "Last Name is required.";
     if (!formData.email) validationErrors.email = "Email Address is required.";
-    if (!formData.phone) validationErrors.phone = "Phone Number is required.";
+    if (!formData.phoneNumber) validationErrors.phoneNumber = "Phone Number is required.";
     if (!formData.country) validationErrors.country = "Country is required.";
     if (!formData.state) validationErrors.state = "State is required.";
     if (!formData.city) validationErrors.city = "City is required.";
@@ -80,10 +82,16 @@ const Register = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      // Clear errors and perform successful registration action
+      // Clear errors and make the POST request
       setErrors({});
-      console.log("Form Data Submitted:", formData);
-      // Use axios to send formData to backend if needed
+      try {
+        const response = await axios.post("http://localhost:3000/api/admin/signup", formData);
+        setSuccessMessage(response.data.message);
+        console.log("Form Data Submitted:", formData);
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setErrors({ submit: error.response?.data?.error || "Something went wrong." });
+      }
     }
   };
 
@@ -103,6 +111,7 @@ const Register = () => {
       <div className="w-1/2 flex justify-center items-center bg-white p-10">
         <div className="w-full max-w-lg bg-white p-10 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold mb-6">Registration</h2>
+          {successMessage && <p className="text-green-500 text-center mb-4">{successMessage}</p>}
           <form onSubmit={handleSubmit}>
             {/* First Name and Last Name */}
             <div className="grid grid-cols-2 gap-4 mb-4">
@@ -544,6 +553,7 @@ const Register = () => {
             >
               Register
             </button>
+            {errors.submit && <p className="text-red-500 text-sm mt-1 text-center">{errors.submit}</p>}
           </form>
 
           <p className="text-center mt-4 text-sm">

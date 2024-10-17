@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FiCamera } from "react-icons/fi";
 import { useBreadcrumb } from "../../Common/BreadcrumbContext";
+import Sidebar from "../../Patient/PatientSidebar";
+import Topbar from "../../Patient/PatientNavbar";
 
 const PatientEditProfile = () => {
   const { updateBreadcrumb } = useBreadcrumb();
@@ -61,6 +63,10 @@ const PatientEditProfile = () => {
   };
 
   return (
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
+      <div className="flex-1 ">
+        <Topbar />
     <div className="relative py-16 px-24">
       {/* Gradient Background Header */}
       <div
@@ -193,6 +199,8 @@ const PatientEditProfile = () => {
           </div>
         </form>
       </div>
+    </div>
+    </div>
     </div>
   );
 };

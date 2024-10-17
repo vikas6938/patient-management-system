@@ -7,7 +7,7 @@ import ResetPassword from './components/Auth/ResetPass';
 import Breadcrumb from './components/Common/Breadcrumb';
 import { BreadcrumbProvider } from "./components/Common/BreadcrumbContext";
 // Profile Setting page
-import DashboardPage from './components/ProfileScreen/ProfileSetting';
+import DashboardPage from './components/Dashboard/Dashboard';
 import ChangePassword from './components/ProfileScreen/ChangePassword';
 import EditProfile from './components/ProfileScreen/EditProfile';
 import TermsCondition from './components/ProfileScreen/TermsCondition';
@@ -25,8 +25,10 @@ import DoctorManage from './components/DoctorManagement/DoctorManage';
 import AddDoctor from './components/DoctorManagement/AddDoctor';
 // Patient Management
 import PatientDashboard from './components/pages/patient/PatientDashboard';
-import AppointmentBookingPage from './components/pages/patient/AppointmentBookingPage';
 import PatientEditProfile from './components/pages/patient/PatientEditProfile';
+import PatientSidebar from './components/Patient/PatientSidebar';
+import PatientNavbar from './components/Patient/PatientNavbar';
+import AppointmentBookingPage from './components/pages/patient/AppointmentBookingPage';
 
 function App() {
   return (
@@ -61,9 +63,11 @@ function App() {
         <Route path="/patient-dashboard" element={<PatientDashboard />} />
         <Route path="/appointment-booking" element={<AppointmentBookingPage />} />
         <Route path="/patient-editprofile" element={<PatientEditProfile />} />
+        <Route path="/patient-sidebar" element={<PatientSidebar />} />
+        <Route path="/patient-navbar" element={<PatientNavbar />} />
       </Routes>
     </Router>
-     </BreadcrumbProvider>
+    </BreadcrumbProvider>
   );
 }
 
