@@ -30,7 +30,7 @@ const PORT = Config.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-  origin: "https://patient-management-system-rho.vercel.app/", 
+  origin: "https://patient-management-system-rho.vercel.app", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
