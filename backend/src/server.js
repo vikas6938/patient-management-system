@@ -30,7 +30,7 @@ const PORT = Config.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-  origin: "http://localhost:3000", // Allow frontend origin
+  origin: "https://patient-management-system-rose.vercel.app/", // Allow frontend origin
   methods: ["GET", "POST", "PUT", "DELETE",'PATCH'],
   allowedHeaders: ["Authorization", "Content-Type"],
   credentials: true,
@@ -76,7 +76,9 @@ app.get("/uploads-list", (req, res) => {
   });
 });
 
-
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
 
 // Start server and initialize Socket.io
 server.listen(PORT, (err) => {
