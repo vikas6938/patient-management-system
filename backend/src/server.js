@@ -30,10 +30,9 @@ const PORT = Config.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-  origin: "https://patient-management-system-rose.vercel.app/", // Allow frontend origin
-  methods: ["GET", "POST", "PUT", "DELETE",'PATCH'],
-  allowedHeaders: ["Authorization", "Content-Type"],
-  credentials: true,
+  origin: "https://patient-management-system-rose.vercel.app/", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 // Database connection
