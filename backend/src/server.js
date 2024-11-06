@@ -27,17 +27,17 @@ socketio.init(server);
 const PORT = Config.PORT || 5000;
 
 // Middleware
-app.use(express.json());
+app.use(express.json());  
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: "https://patient-management-system-rho.vercel.app", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  methods: ["GET", "POST", "PUT", "DELETE",'PATCH'],  
+  allowedHeaders: ["Authorization", "Content-Type"],
+  credentials: true,
 }));
 
 dbConnection();
 
-// Serve static files from the 'uploads' folder inside 'src'
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes setup
@@ -78,7 +78,6 @@ app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// Start server and initialize Socket.io
 server.listen(PORT, (err) => {
   if (err) {
     console.log("Server startup error:", err);
